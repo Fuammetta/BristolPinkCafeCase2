@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pink Forecast — Sales Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><span>BP</span></div>
+      <div><strong>Bristol Pink</strong><small>SALES INTELLIGENCE</small></div>
+    </div>
+
+    <nav>
+      <button class="nav-item active" data-section="overview"><span class="nav-icon">⌂</span>Overview</button>
+      <button class="nav-item" data-section="forecasts"><span class="nav-icon">↗</span>Forecasts</button>
+      <button class="nav-item" data-section="accuracy"><span class="nav-icon">◎</span>Accuracy</button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="status-card">
+        <span class="status-dot"></span>
+        <div><small>DATA STATUS</small><strong>Demo dataset</strong></div>
+      </div>
+      <button class="icon-button" id="themeButton" title="Toggle theme">◐</button>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">MONDAY, 26 NOVEMBER 2026</p>
+        <h1>Sales overview</h1>
+      </div>
+      <div class="header-actions">
+        <label class="upload-button">
+          <input type="file" id="csvUpload" accept=".csv,text/csv" />
+          <span>↥</span> Import CSV
+        </label>
+        <button class="profile-button" title="Account">AK</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <section id="overviewSection" class="view-section active">
+        <div class="filter-row">
+          <div class="control-group">
+            <label>LOCATION</label>
+            <select id="cafeFilter"><option value="All">All cafés</option></select>
+          </div>
+          <div class="control-group">
+            <label>PRODUCT GROUP</label>
+            <div class="segment" id="categoryFilter">
+              <button class="active" data-category="All">All</button>
+              <button data-category="Food">Food</button>
+              <button data-category="Coffee">Coffee</button>
+            </div>
+          </div>
+          <div class="control-group period-control">
+            <label>PERIOD</label>
+            <select class="date-button" id="dateRange" aria-label="Focus period"><option value="7">Last 7 days</option><option value="14">Last 14 days</option><option value="30" selected>Last 30 days</option><option value="56">Last 8 weeks</option></select>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <article class="kpi-card"><div class="kpi-icon pink">↗</div><div><small>FORECAST SALES · 4 WEEKS</small><strong id="forecastKpi">—</strong><span id="forecastDelta" class="positive">—</span></div></article>
+          <article class="kpi-card"><div class="kpi-icon amber">◫</div><div><small>PROJECTED WASTE</small><strong id="wasteKpi">—</strong><span class="positive">↓ 18.4% vs prior</span></div></article>
+          <article class="kpi-card"><div class="kpi-icon blue">◎</div><div><small>MODEL ACCURACY</small><strong id="accuracyKpi">—</strong><span class="positive">Weighted blend</span></div></article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel sales-panel">
+            <div class="panel-header">
+              <div><p class="eyebrow">PERFORMANCE</p><h2>Top selling products</h2></div>
+              <div class="legend"><span><i class="dot pink-dot"></i>Actual</span><span><i class="dot pale-dot"></i>Forecast</span></div>
+            </div>
+            <div class="chart-wrap"><svg id="salesChart" role="img" aria-label="Top products sales chart"></svg></div>
+          </section>
+
+          <section class="panel top-products">
+            <div class="panel-header"><div><p class="eyebrow">RANKING</p><h2>Product leaders</h2></div></div>
+            <div id="rankingList" class="ranking-list"></div>
+          </section>
+        </div>
+
+        <section class="panel forecast-panel">
+          <div class="panel-header forecast-header">
+            <div><p class="eyebrow">FUTURE OUTLOOK</p><h2>4-week sales forecast</h2></div>
+            <div class="forecast-controls">
+              <div class="segment" id="viewMode">
+                <button class="active" data-view="chart">Chart</button><button data-view="table">Table</button>
+              </div>
+            </div>
+          </div>
+          <div class="forecast-toolbar">
+            <div class="control-inline"><label>ALGORITHM</label><select id="algorithmSelect"><option value="ensemble">Weighted ensemble</option><option value="linear">Linear trend</option><option value="moving">Moving average</option></select></div>
+            <div class="control-inline"><label>TRAINING PERIOD</label><div class="week-picker"><button id="minusWeeks">−</button><strong id="weekCount">6 weeks</strong><button id="plusWeeks">+</button></div></div>
+          </div>
+          <div id="forecastChartView" class="chart-wrap forecast-chart"><svg id="forecastChart" role="img" aria-label="Four week forecast chart"></svg></div>
+          <div id="forecastTableView" class="table-wrap" hidden><table><thead><tr><th>Product</th><th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th><th>Total</th></tr></thead><tbody id="forecastTable"></tbody></table></div>
+        </section>
+      </section>
+
+      <section id="forecastsSection" class="view-section">
+        <div class="section-heading"><div><p class="eyebrow">DEMAND PLANNING</p><h1>Product forecasts</h1></div></div>
+        <div class="product-grid" id="productCards"></div>
+      </section>
+
+      <section id="accuracySection" class="view-section">
+        <div class="section-heading"><div><p class="eyebrow">MODEL PERFORMANCE</p><h1>Forecast accuracy</h1></div></div>
+        <div class="accuracy-grid">
+          <article class="panel accuracy-main"><div class="panel-header"><div><p class="eyebrow">BACKTEST RESULTS</p><h2>Algorithm comparison</h2></div></div><div id="accuracyBars" class="accuracy-bars"></div></article>
+          <article class="panel"><div class="panel-header"><div><p class="eyebrow">BEST MODEL</p><h2>Weighted ensemble</h2></div></div><div class="accuracy-summary"><strong id="bestAccuracy">—</strong><span>Mean absolute percentage error</span><div class="accuracy-meter"><i id="accuracyMeter"></i></div></div></article>
+        </div>
+      </section>
+    </div>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
